@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        body {
+            font-family: "Kiwi Maru", serif;
+            font-size: 24px;
+            text-align: center;
+            line-height: 48px;
+            color: #030d1a;
+        }
+
+        input {
+            border: none;
+            width: 60px;
+            font-size: inherit;
+            font-family: inherit;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .label-group {
+            position: absolute;
+            text-align: left;
+            font-size: 14px;
+        }
+        .gray {
+            color: #9b9b9b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="label-group gray">
+            <label for="attack">
+                Base ATK
+            </label>
+            <br>
+            <label for="attackPercent">
+                ATK %
+            </label>
+            <br>
+            <label for="critChance">
+                Crit Rate
+            </label>
+            <br>
+            <label for="critDamage">
+                Crit DMG
+            </label>
+            <br>
+            <label for="elementalDamage">
+                Elemental DMG
+            </label>
+            <br>
+            <label for="skillDamage">
+                Skill DMG
+            </label>
+            <br>
+            <label for="resistance">
+                RES
+            </label>
+        </div>
+        <div class="calculation-inputs">
+            <input type="number" id="attack" name="attack" value="0">
+            <span><br>&times; <span class="gray">1</span></span><input type="number" id="attackPercent" name="attackPercent" value="00" min="100">
+            <span>%<br>&times; <span class="gray">1</span></span><input type="number" id="critChance" name="critChance" value="00">
+            <span>%<br>&times; <span class="gray">1</span></span><input type="number" id="critDamage" name="critDamage" value="00">
+            <span>%<br>&times; <span class="gray">1</span></span><input type="number" id="elementalDamage" name="elementalDamage" value="00">
+            <span>%<br>&times; <span class="gray">1</span></span><input type="number" id="skillDamage" name="skillDamage" value="00">
+            <span>%<br>&times; (<span class="gray">100 &minus; </span></span><input type="number" id="resistance" name="resistance" value="00">
+            <span>
+                ) % <br> ————————— <br>
+            </span>
+            <span id="result">
+                0
+            </span>
+            <span>
+                <br> Average Damage
+            </span>
+        </div>
+    </div>
+    <script>
+        const attack = document.querySelector("#attack");
+        const attackPercent = document.querySelector("#attackPercent");
+        const critChance = document.querySelector("#critChance");
+        const critDamage = document.querySelector("#critDamage");
+        const elementalDamage = document.querySelector("#elementalDamage");
+        const skillDamage = document.querySelector("#skillDamage");
+        const resistance = document.querySelector("#resistance");
+        const result = document.querySelector("#result");
+        const update = () => {
+            result.textContent = Math.round(
+                attack.value *
+                (1 + attackPercent.value / 100) *
+                (1 + critChance.value / 100) *
+                (1 + critDamage.value / 100) *
+                (1 + elementalDamage.value / 100) *
+                (1 + skillDamage.value / 100) *
+                (1 - resistance.value / 100)
+            );
+        }
+        const allInputs = [attack, attackPercent, critChance, critDamage, elementalDamage, skillDamage, resistance];
+        allInputs.forEach((input) => {
+            input.onclick = () => { input.select(); };
+            input.oninput = update;
+        });
+    </script>
+</body>
+
+</html>
